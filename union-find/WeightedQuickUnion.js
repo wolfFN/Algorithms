@@ -15,6 +15,8 @@ class WeightedQuickUnion {
 
     find(p) {
         while (this._unionMap[p] !== p) {
+            // path compression
+            this._unionMap[p] = this._unionMap[this._unionMap[p]];
             p = this._unionMap[p];
         }
         return p;
