@@ -70,7 +70,9 @@ class Heap {
 
 const heap = new Heap([7, 5, 3, 10, 1, 2, 8, 9]);
 heap.print();
+
 console.log(heap.popSmall());
+
 heap.print();
 heap.push(9);
 heap.print();
