@@ -1,4 +1,13 @@
-class PriorityQueue {
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var topKFrequent = function(nums, k) {
+    
+};
+
+class MaxPriorityQueue {
     constructor() {
         this._queue = [];
     }
@@ -17,7 +26,7 @@ class PriorityQueue {
 
     _swim() {
         let k = this.size() - 1;
-        while (k > 0 && this._queue[k] < this._queue[this._getParentIndex(k)]) {
+        while (k > 0 && this._queue[k] > this._queue[this._getParentIndex(k)]) {
             this._exch(k, this._getParentIndex(k));
             k = this._getParentIndex(k);
         }
@@ -27,10 +36,10 @@ class PriorityQueue {
         let k = 0;
         while (2 * k + 1 < this.size()) {
             let j = 2 * k + 1;
-            if (j + 1 < this.size() && this._queue[j + 1] < this._queue[j]) {
+            if (j + 1 < this.size() && this._queue[j + 1] > this._queue[j]) {
                 j++;
             }
-            if (this._queue[j] > this._queue[k]) {
+            if (this._queue[j] < this._queue[k]) {
                 break;
             }
             this._exch(k, j);
@@ -43,16 +52,18 @@ class PriorityQueue {
         this._swim();
     }
 
-    delMin() {
+    delMax() {
         this._exch(0, this.size() - 1);
-        const min = this._queue.pop();
+        const max = this._queue.pop();
         this._sink();
-        return min;
+        return max;
     }
 
-    getMin() {
+    getMax() {
         return this._queue[0];
     }
 }
 
-module.exports = PriorityQueue;
+const nums = [1,1,1,2,2,3]
+const K = 2
+console.log(topKFrequent(nums, K));
