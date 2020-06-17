@@ -3,11 +3,36 @@
  * @param {number} k
  * @return {number[]}
  */
-var topKFrequent = function(nums, k) {
-    
+var topKFrequent = function (nums, k) {
+    const countMap = {};
+    for (const num of nums) {
+        countMap[num] ? countMap[num]++ : (countMap[num] = 1);
+    }
+
+    const pq = new PriorityQueue();
+    const keys = Object.keys(countMap);
+    for (let i = 0; i < k; i++) {
+        pq.insert(countMap[keys[i]]);
+    }
+
+    for (let i = k; i < keys.length; i++) {
+        if (countMap[keys[i]] > pq.getMin()) {
+            pq.delMin();
+            pq.insert(countMap[keys[i]]);
+        }
+    }
+
+    const result = [];
+    for (const key of keys) {
+        if (countMap[key] >= pq.getMin()) {
+            result.push(key);
+        }
+    }
+
+    return result;
 };
 
-class MaxPriorityQueue {
+class PriorityQueue {
     constructor() {
         this._queue = [];
     }
@@ -20,15 +45,15 @@ class MaxPriorityQueue {
         [this._queue[i], this._queue[j]] = [this._queue[j], this._queue[i]];
     }
 
-    _getParentIndex(index) {
-        return Math.floor((index - 1) / 2);
+    _parent(i) {
+        return Math.floor((i - 1) / 2);
     }
 
     _swim() {
         let k = this.size() - 1;
-        while (k > 0 && this._queue[k] > this._queue[this._getParentIndex(k)]) {
-            this._exch(k, this._getParentIndex(k));
-            k = this._getParentIndex(k);
+        while (k > 0 && this._queue[k] < this._queue[this._parent(k)]) {
+            this._exch(k, this._parent(k));
+            k = this._parent(k);
         }
     }
 
@@ -36,10 +61,10 @@ class MaxPriorityQueue {
         let k = 0;
         while (2 * k + 1 < this.size()) {
             let j = 2 * k + 1;
-            if (j + 1 < this.size() && this._queue[j + 1] > this._queue[j]) {
+            if (j + 1 < this.size() && this._queue[j + 1] < this._queue[j]) {
                 j++;
             }
-            if (this._queue[j] < this._queue[k]) {
+            if (this._queue[j] >= this._queue[k]) {
                 break;
             }
             this._exch(k, j);
@@ -52,18 +77,14 @@ class MaxPriorityQueue {
         this._swim();
     }
 
-    delMax() {
+    delMin() {
         this._exch(0, this.size() - 1);
-        const max = this._queue.pop();
+        const min = this._queue.pop();
         this._sink();
-        return max;
+        return min;
     }
 
-    getMax() {
+    getMin() {
         return this._queue[0];
     }
 }
-
-const nums = [1,1,1,2,2,3]
-const K = 2
-console.log(topKFrequent(nums, K));
