@@ -13,22 +13,23 @@ const backTrack = (path, options, result) => {
         result.push([...path]);
         return;
     }
-    const uniques = new Set();
-    for (let i = 0; i < options.length; i++) {
-        if (uniques.has(options[i])) {
-            continue;
-        } else {
-            uniques.add(options[i]);
-            path.push(options[i]);
 
-            backTrack(
-                path,
-                [...options.slice(0, i), ...options.slice(i + 1)],
-                result
-            );
-            path.pop();
+    const uniqueSet = new Set();
+    for (let i = 0; i < options.length; i++) {
+        const cur = options[i];
+        if (uniqueSet.has(cur)) {
+            continue;
         }
+
+        path.push(cur);
+        uniqueSet.add(cur);
+        backTrack(
+            path,
+            [...options.slice(0, i), ...options.slice(i + 1)],
+            result,
+        );
+        path.pop();
     }
 };
 
-// console.log(permuteUnique([1, 1, 3]));
+console.log(permuteUnique([1, 1, 3]));
