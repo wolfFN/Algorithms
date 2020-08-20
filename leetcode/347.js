@@ -22,6 +22,9 @@ var topKFrequent = function (nums, k) {
         }
     }
 
+    console.log(pq._queue);
+    console.log(pq.getMin());
+
     const result = [];
     for (const key of keys) {
         if (countMap[key] >= pq.getMin()) {
@@ -88,3 +91,39 @@ class PriorityQueue {
         return this._queue[0];
     }
 }
+
+
+console.log(
+    topKFrequent(
+        [
+            3,
+            2,
+            3,
+            1,
+            2,
+            4,
+            5,
+            5,
+            6,
+            7,
+            7,
+            8,
+            2,
+            3,
+            1,
+            1,
+            1,
+            10,
+            11,
+            5,
+            6,
+            2,
+            4,
+            7,
+            8,
+            5,
+            6,
+        ],
+        10,
+    ),
+);
