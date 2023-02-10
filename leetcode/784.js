@@ -1,27 +1,24 @@
 /**
- * @param {string} S
+ * @param {string} s
  * @return {string[]}
  */
-var letterCasePermutation = function (S) {
-    const backtrack = (path, start) => {
-        if (path.length === len) {
+var letterCasePermutation = function (s) {
+    const backtrack = function (path) {
+        if (path.length === s.length) {
             result.push([...path].join(''));
             return;
         }
-
-        for (let i = start; i < len; i++) {
-            if (S[i] >= 0 && S[i] <= 9) {
-                backtrack(path + S[i], i + 1);
-            } else {
-                backtrack(path + S[i].toLowerCase(), i + 1);
-                backtrack(path + S[i].toUpperCase(), i + 1);
-            }
+        const i = path.length;
+        if (s[i] >= 0 && s[i] <= 9) {
+            backtrack(path + s[i]);
+        } else {
+            backtrack(path + s[i].toLowerCase());
+            backtrack(path + s[i].toUpperCase());
         }
     };
 
-    const len = S.length;
     const result = [];
-    backtrack('', 0);
+    backtrack('');
     return result;
 };
 

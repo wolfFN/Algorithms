@@ -4,22 +4,20 @@
  */
 var permute = function (nums) {
     const result = [];
-    backTrack([], nums, result);
+    backtrack([], nums, result);
     return result;
 };
 
-const backTrack = (path, options, result) => {
+var backtrack = function (path, options, result) {
     if (options.length === 0) {
         result.push([...path]);
-        return;
     }
-
     for (let i = 0; i < options.length; i++) {
         path.push(options[i]);
-        backTrack(
+        backtrack(
             path,
             [...options.slice(0, i), ...options.slice(i + 1)],
-            result
+            result,
         );
         path.pop();
     }
