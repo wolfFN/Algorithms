@@ -3,17 +3,16 @@
  * @return {boolean}
  */
 var canJump = function (nums) {
-    let max = 0;
-    for (let i = 0; i < nums.length && i <= max; i++) {
-        if (i + nums[i] > max) {
-            max = i + nums[i];
-        }
-        if (max >= nums.length - 1) {
-            return true;
-        }
-        // console.log(i, max);
+    let cur = 0;
+    let max = nums[0];
+
+    while (cur < nums.length && cur <= max && max < nums.length) {
+        max = Math.max(max, cur + nums[cur]);
+        cur++;
     }
-    return max >= nums.length - 1;
+
+    return cur >= nums.length || max >= nums.length;
 };
 
 console.log(canJump([2, 3, 1, 1, 4]));
+console.log(canJump([3, 2, 1, 0, 4]));
