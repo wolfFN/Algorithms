@@ -10,6 +10,7 @@ var searchMatrix = function (matrix, target) {
         if (matrix[row][column] === target) {
             return true;
         }
+
         if (matrix[row][column] < target) {
             row++;
         } else {
